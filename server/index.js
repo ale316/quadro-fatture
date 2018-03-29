@@ -1,12 +1,12 @@
 const Koa = require('koa')
 const app = new Koa()
 
-const Clients = require('./repositories/Clients')
+const fetchClients = require('./jobs/fetchClients')
 
 // response
 app.use(async ctx => {
-    let clients = await Clients.getAll()
-    ctx.body = clients
+    // let clients = await Clients.getAll()
+    ctx.body = 'done!'
 })
 
 app.listen(3000)
