@@ -23,7 +23,12 @@ class Documents {
             let doc = documents[i]
             let res = await api.post(`/${type}/dettagli`, { id: doc.id, token: doc.token })
             details.push(res.data.dettagli_documento)
+
+            if (i % 10 === 9)
+                await new Promise(resolve => setTimeout(resolve, 5000))
         }
+
+        return details
     }
 }
 
