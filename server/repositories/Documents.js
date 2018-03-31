@@ -21,7 +21,7 @@ class Documents {
         let details = []
         for (let i = documents.length - 1; i >= 0; i--) {
             let doc = documents[i]
-            let res = await api.post(`/${type}/dettagli`, { id: doc.id, token: doc.token })
+            let res = await api.post(`/${doc.tipo}/dettagli`, { id: doc.id, token: doc.token })
             details.push(res.data.dettagli_documento)
 
             if (i % 10 === 9)
