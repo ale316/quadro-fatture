@@ -25,7 +25,7 @@ module.exports = async function() {
         let client = await MongoClient.connect(url)
         let db = client.db('fatture')
 
-        let years = [/*2016, 2017, */2018]
+        let years = [2016, 2017, 2018]
         let paid = []
         let unpaid = []
         for (var i = 0; i < years.length; i++) {
