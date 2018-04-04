@@ -2,7 +2,6 @@ const Documents = require('../repositories/Documents')
 const MongoClient = require('mongodb').MongoClient
 
 let format = function(invoice) {
-    console.log(invoice)
     return {
         _id: invoice.id,
         token: invoice.token,
@@ -46,4 +45,4 @@ module.exports = async function() {
     } catch (e) {
         console.log(e)
     }
-}()
+}
