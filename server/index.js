@@ -1,12 +1,23 @@
 const Koa = require('koa')
-const app = new Koa()
+const Router = require('koa-router')
+const mongo = require('koa-mongo')
 
-const fetchClients = require('./jobs/fetchClients')
+const app = new Koa()
+const router = new Router()
+
+app.use(mongo({
+    host: 'localhost',
+    port: 27017,
+    db: 'quadro-fatture'
+}))
 
 // response
-app.use(async ctx => {
-    // let clients = await Clients.getAll()
-    ctx.body = 'done!'
+router
+.get('/documents', async ctx => {
+    // const documents = ctx.mongo.collection('documents').find().
+})
+.get('/documents/:client_id', async ctx => {
+    
 })
 
 app.listen(3000)
