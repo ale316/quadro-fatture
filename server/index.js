@@ -8,16 +8,20 @@ const router = new Router()
 app.use(mongo({
     host: 'localhost',
     port: 27017,
-    db: 'quadro-fatture'
+    db: 'fatture'
 }))
 
 // response
 router
 .get('/documents', async ctx => {
-    // const documents = ctx.mongo.collection('documents').find().
+    const documents = await ctx.mongo.collection('documents').find().sort({ date: -1 }).toArray()
+    ctx.body = documents
 })
 .get('/documents/:client_id', async ctx => {
-    
+    const documents = await ctx.mongo.collection('documents').find({ client_id: ctx.params.client_id }).sort({ date: -1 }).toArray()
+    ctx.body = documents
 })
 
-app.listen(3000)
+app.use(router.routes())
+
+app.listen(3300)
