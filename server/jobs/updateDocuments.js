@@ -11,7 +11,7 @@ module.exports = async function() {
         let today = new Date()
         today.setDate(today.getDate() - 1)
 
-        const newUnpaid = await Documents.getAll('proforma', 2018, `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`) || []
+        const newUnpaid = await Documents.getAll('proforma', today.getFullYear(), `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`) || []
         const currUnpaid = await db.collection('invoices').find({ paid: false }).toArray() || []
 
         let allUnpaid = await Documents.getDetails(currUnpaid.concat(newUnpaid))
