@@ -1,7 +1,7 @@
 const api = require('../api')
 
 class Documents {
-    async getAll(type, year) {
+    async getAll(type, year, since = null) {
         let allowed = ["fatture", "ricevute", "preventivi", "ordini", "ndc", "proforma", "rapporti", "ordforn", "ddt"]
         if (allowed.indexOf(type) < 0)
             throw `Type <${type}> not available.`
@@ -9,6 +9,10 @@ class Documents {
         let documents = []
         let isDone = false
         while (!isDone) {
+            let opts = { anno: year }
+            if (since)
+                opts.data_inizio = since
+
             let res = await api.post(`/${type}/lista`, { anno: year })
             if (res.data.numero_pagine === res.data.pagina_corrente) isDone = true
             documents = documents.concat(res.data.lista_documenti)
