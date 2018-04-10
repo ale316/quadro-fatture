@@ -24,9 +24,15 @@ module.exports = async function() {
         console.log("Fetching details of unpaid invoices...")
         unpaid = await Documents.getDetails(unpaid)
 
+        console.log("Finished fetching unpain invoices...")
         let all = paid.concat(unpaid).map(i => format(i))
-        await db.collection('invoices').update(all, { upsert: true, multi: true })
+
+        console.log("Writing to database...")
+        all.forEach(async i => {
+            await db.collection('invoices').update({ _id: i._id }, i, { upsert: true })
+        })
+
     } catch (e) {
         console.log(e)
     }
-}
+}()
