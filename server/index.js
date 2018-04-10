@@ -1,6 +1,7 @@
 const Koa = require('koa')
 const Router = require('koa-router')
 const mongo = require('koa-mongo')
+const cors = require('@koa/cors')
 
 const app = new Koa()
 const router = new Router()
@@ -11,15 +12,17 @@ app.use(mongo({
     db: 'fatture'
 }))
 
+app.use(cors())
+
 // response
 router
-.get('/documents', async ctx => {
-    const documents = await ctx.mongo.collection('documents').find().sort({ date: -1 }).toArray()
-    ctx.body = documents
+.get('/invoices', async ctx => {
+    const invoices = await ctx.mongo.collection('invoices').find().sort({ date: -1 }).toArray()
+    ctx.body = invoices
 })
-.get('/documents/:client_id', async ctx => {
-    const documents = await ctx.mongo.collection('documents').find({ client_id: ctx.params.client_id }).sort({ date: -1 }).toArray()
-    ctx.body = documents
+.get('/invoices/:client_id', async ctx => {
+    const invoices = await ctx.mongo.collection('invoices').find({ client_id: ctx.params.client_id }).sort({ date: -1 }).toArray()
+    ctx.body = invoices
 })
 
 app.use(router.routes())
