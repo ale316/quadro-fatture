@@ -1,3 +1,4 @@
+import './styles/Client.css'
 import 'react-table/react-table.css'
 
 import axios from 'axios'
@@ -42,22 +43,31 @@ class Client extends Component {
 
     render() {
         return (
-            <Page title={`Quadro fatture per ${this.state.client.client_name}`}>
+            <Page
+                className="Client"
+                title={`Quadro fatture per ${this.state.client.client_name}`}
+            >
                 <ReactTable
                     data={this.state.data}
                     noDataText="Nessun Risultato"
                     showPagination={false}
                     columns={[
                         {
+                            Header: "Data",
+                            id: "data",
+                            accessor: s => (new Date(s.date)).toLocaleDateString("it-IT"),
+                            maxWidth: 100
+                        },
+                        {
                             Header: "Tipo",
                             id: "tipo",
                             accessor: s => s.items && s.items.length > 0 ? s.items.map(i => i.code).join(', ') : '-',
-                            maxWidth: 100
+                            maxWidth: 120
                         },
                         {
                             Header: "Descrizione",
                             id: "descrizione",
-                            accessor: s => s.items && s.items.length > 0 ? s.items.map(i => i.description).join('\n') : '-'
+                            accessor: s => s.items && s.items.length > 0 ? s.items.map((i, n) => <p key={n}>{i.description}</p>) : '-'
                         },
                         {
                             Header: "Imponibile",

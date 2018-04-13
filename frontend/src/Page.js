@@ -1,6 +1,7 @@
+import './styles/App.css'
+
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import './styles/App.css'
 
 class Page extends Component {
     render() {
@@ -9,7 +10,9 @@ class Page extends Component {
                 <header className="App-header">
                     <h1 className="App-title">{this.props.title}</h1>
                 </header>
-                {this.props.children}
+                <div className={this.props.className}>
+                    {this.props.children}
+                </div>
             </div>
         )
     }
@@ -18,6 +21,7 @@ class Page extends Component {
 Page.propTypes = {
     title: PropTypes.string.isRequired,
     children: PropTypes.object.isRequired,
+    className: PropTypes.string
 }
 
 export default Page
