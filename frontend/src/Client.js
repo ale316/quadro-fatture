@@ -25,12 +25,12 @@ class Client extends Component {
                 return {
                     codes: s.items && s.items.length > 0 ? s.items.map(i => i.code).join(', ') : '-',
                     descriptions: s.items && s.items.length > 0 ? s.items.map(i => i.description).join('\n') : '-',
-                    amount_net: s.amount_net,
-                    amount_total: s.amount_total,
+                    amount_net: `${s.amount_net.toFixed(2)}€`,
+                    amount_total: `${s.amount_total.toFixed(2)}€`,
                     status: s.paid ? "Saldato" : "Da Pagare"
                 }
             })
-            
+
             this.setState({
                 data: data
             })
@@ -50,7 +50,8 @@ class Client extends Component {
                     columns={[
                         {
                             Header: "Tipo",
-                            accessor: "codes"
+                            accessor: "codes",
+                            maxWidth: 100
                         },
                         {
                             Header: "Descrizione",
@@ -58,15 +59,18 @@ class Client extends Component {
                         },
                         {
                             Header: "Imponibile",
-                            accessor: "amount_net"
+                            accessor: "amount_net",
+                            maxWidth: 100
                         },
                         {
                             Header: "Totale",
-                            accessor: "amount_total"
+                            accessor: "amount_total",
+                            maxWidth: 100
                         },
                         {
                             Header: "Stato",
-                            accessor: "status"
+                            accessor: "status",
+                            maxWidth: 100
                         }
                     ]}
                 />
