@@ -13,27 +13,27 @@ class Client extends Component {
         super()
 
         this.state = {
-            data: []
+            data: [],
+            client: {}
         }
     }
 
     componentWillMount() {
         axios.get(`http://localhost:3300/invoices/${this.props.match.params.client_id}`)
         .then(res => {
+            console.log(res.data)
+            let client
             let sorted = sortBy(res.data, i => i.paid)
-            let data = sorted.map(s => {
-                return {
-                    codes: s.items && s.items.length > 0 ? s.items.map(i => i.code).join(', ') : '-',
-                    descriptions: s.items && s.items.length > 0 ? s.items.map(i => i.description).join('\n') : '-',
-                    amount_net: `${s.amount_net.toFixed(2)}€`,
-                    amount_total: `${s.amount_total.toFixed(2)}€`,
-                    status: s.paid ? "Saldato" : "Da Pagare"
-                }
-            })
+            if (sorted && sorted.length > 0) {
+                client = { client_name: sorted[0].client_name }
 
-            this.setState({
-                data: data
-            })
+                this.setState({
+                    data: sorted,
+                    client
+                })
+            }
+
+
         })
         .catch((err) => {
             console.log(err)
@@ -42,7 +42,7 @@ class Client extends Component {
 
     render() {
         return (
-            <Page title="Quadro fatture per">
+            <Page title={`Quadro fatture per ${this.state.client.client_name}`}>
                 <ReactTable
                     data={this.state.data}
                     noDataText="Nessun Risultato"
@@ -50,26 +50,31 @@ class Client extends Component {
                     columns={[
                         {
                             Header: "Tipo",
-                            accessor: "codes",
+                            id: "tipo",
+                            accessor: s => s.items && s.items.length > 0 ? s.items.map(i => i.code).join(', ') : '-',
                             maxWidth: 100
                         },
                         {
                             Header: "Descrizione",
-                            accessor: "descriptions"
+                            id: "descrizione",
+                            accessor: s => s.items && s.items.length > 0 ? s.items.map(i => i.description).join('\n') : '-'
                         },
                         {
                             Header: "Imponibile",
-                            accessor: "amount_net",
+                            id: "imponibile",
+                            accessor: s => `${s.amount_net.toFixed(2)}€`,
                             maxWidth: 100
                         },
                         {
                             Header: "Totale",
-                            accessor: "amount_total",
+                            id: "totale",
+                            accessor: s => `${s.amount_total.toFixed(2)}€`,
                             maxWidth: 100
                         },
                         {
                             Header: "Stato",
-                            accessor: "status",
+                            id: "stato",
+                            accessor: s => s.paid ? "Saldato" : "Da Pagare",
                             maxWidth: 100
                         }
                     ]}
