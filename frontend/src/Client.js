@@ -17,7 +17,7 @@ class Client extends Component {
     }
 
     componentWillMount() {
-        axios.get("http://localhost:3300/invoices")
+        axios.get(`http://localhost:3300/client/${this.props.match.params.client_id}`)
         .then(res => {
             console.log(res.data)
         })
@@ -59,6 +59,10 @@ class Client extends Component {
             </Page>
         )
     }
+}
+
+Page.propTypes = {
+    match: PropTypes.object.isRequired,
 }
 
 export default Client
