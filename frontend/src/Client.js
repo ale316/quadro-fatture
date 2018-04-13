@@ -1,9 +1,10 @@
 import 'react-table/react-table.css'
 
-import React, { Component } from 'react'
+import axios from 'axios'
 import PropTypes from 'prop-types'
 import ReactTable from 'react-table'
-import axios from 'axios'
+import React, { Component } from 'react'
+import { sortBy } from 'lodash'
 
 import Page from './Page'
 
@@ -17,9 +18,22 @@ class Client extends Component {
     }
 
     componentWillMount() {
-        axios.get(`http://localhost:3300/client/${this.props.match.params.client_id}`)
+        axios.get(`http://localhost:3300/invoices/${this.props.match.params.client_id}`)
         .then(res => {
-            console.log(res.data)
+            let sorted = sortBy(res.data, i => i.paid)
+            let data = sorted.map(s => {
+                return {
+                    codes: s.items && s.items.length > 0 ? s.items.map(i => i.code).join(', ') : '-',
+                    descriptions: s.items && s.items.length > 0 ? s.items.map(i => i.description).join('\n') : '-',
+                    amount_net: s.amount_net,
+                    amount_total: s.amount_total,
+                    status: s.paid ? "Saldato" : "Da Pagare"
+                }
+            })
+            
+            this.setState({
+                data: data
+            })
         })
         .catch((err) => {
             console.log(err)
@@ -61,7 +75,7 @@ class Client extends Component {
     }
 }
 
-Page.propTypes = {
+Client.propTypes = {
     match: PropTypes.object.isRequired,
 }
 

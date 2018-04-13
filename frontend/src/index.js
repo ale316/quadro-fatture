@@ -10,7 +10,7 @@ ReactDOM.render((
     <Router>
         <Switch>
             <Route exact path='/' component={Client}/>
-            <Route path='/cliente/:client_id' component={Client}/>
+            <Route exact path='/cliente/:client_id' component={Client}/>
         </Switch>
     </Router>
 ), document.getElementById('root'))
