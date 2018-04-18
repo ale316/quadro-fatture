@@ -15,7 +15,9 @@ class Documents {
 
             let res = await api.post(`/${type}/lista`, { anno: year })
             if (res.data.numero_pagine === res.data.pagina_corrente) isDone = true
-            documents = documents.concat(res.data.lista_documenti)
+
+            if (res.data.lista_documenti)
+                documents = documents.concat(res.data.lista_documenti)
         }
 
         return documents
