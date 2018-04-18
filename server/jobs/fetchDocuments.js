@@ -29,8 +29,9 @@ module.exports = async function() {
 
         console.log("Writing to database...")
         all.forEach(async i => {
-            await db.collection('invoices').update({ _id: i._id }, i, { upsert: true })
+            await db.collection('invoices').update({ _id: i._id }, { '$set': i }, { upsert: true })
         })
+        console.log("Done!")
 
     } catch (e) {
         console.log(e)

@@ -17,8 +17,8 @@ module.exports = async function() {
         let allUnpaid = await Documents.getDetails(currUnpaid.concat(newUnpaid))
         allUnpaid = allUnpaid.map(i => format(i))
 
-        allUnpaid.forEach(async i => {
-            await db.collection('invoices').update({ _id: i._id }, i, { upsert: true })
+        all.forEach(async i => {
+            await db.collection('invoices').update({ _id: i._id }, { '$set': i }, { upsert: true })
         })
     } catch (e) {
         console.log(e)

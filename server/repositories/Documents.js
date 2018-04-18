@@ -16,7 +16,7 @@ class Documents {
             let res = await api.post(`/${type}/lista`, { anno: year })
             if (res.data.numero_pagine === res.data.pagina_corrente) isDone = true
 
-            if (res.data.lista_documenti)
+            if (res && res.data && res.data.lista_documenti)
                 documents = documents.concat(res.data.lista_documenti)
         }
 
@@ -28,7 +28,8 @@ class Documents {
         for (let i = documents.length - 1; i >= 0; i--) {
             let doc = documents[i]
             let res = await api.post(`/${doc.tipo}/dettagli`, { id: doc.id, token: doc.token })
-            details.push(res.data.dettagli_documento)
+            if (res && res.data && res.data.dettagli_documento)
+                details.push(res.data.dettagli_documento)
 
             if (i % 10 === 9)
                 await new Promise(resolve => setTimeout(resolve, 5000))
