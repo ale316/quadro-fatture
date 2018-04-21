@@ -25,6 +25,12 @@ router
     ctx.body = invoices
 })
 
+router
+.get('/clients', async ctx => {
+    const clients = await ctx.mongo.collection('clients').find({}).sort({ name: 1 }).toArray()
+    ctx.body = clients
+})
+
 app.use(router.routes())
 
 app.listen(3300)

@@ -1,3 +1,12 @@
+*:focus {
+    outline: none;
+}
+
+.App {
+  background-color: #f1f1f1;
+  min-height: 100vh;
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
