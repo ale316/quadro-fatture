@@ -17,6 +17,7 @@ module.exports = function(invoice) {
             let description = a.descrizione
             if (isTRegex.test(a.codice)) {
                 description = description.split(':').pop().trim()
+                description = `Buste paga ${description}`
             }
             return { code: a.codice, description: description }
         }) : []
