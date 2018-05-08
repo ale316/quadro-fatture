@@ -1,6 +1,7 @@
 const moment = require('moment')
 
 module.exports = function(invoice) {
+    const isTRegex = /^[1-4]T$/
     return {
         _id: invoice.id,
         token: invoice.token,
@@ -13,7 +14,11 @@ module.exports = function(invoice) {
         paid: invoice.tipo === "fatture", // if it's "fatture" it's been paid
         link_doc: invoice.link_doc,
         items: invoice.lista_articoli && invoice.lista_articoli.length > 0 ? invoice.lista_articoli.map(a => {
-            return { code: a.codice, description: a.descrizione }
+            let description = a.descrizione
+            if (isTRegex.test(a.codice)) {
+                description = description.split(':').pop().trim()
+            }
+            return { code: a.codice, description: description }
         }) : []
     }
 }

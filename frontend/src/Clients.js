@@ -51,7 +51,7 @@ class Clients extends Component {
                 title={`Lista clienti`}
             >
                 <div>
-                    <input type="text" onChange={this.handleNameChange} />
+                    <input type="text" placeholder="Cerca per nome cliente..." onChange={this.handleNameChange} />
                     <ul>
                         {this.state.shown.map((c, i) => <li key={i}><Link to={`/cliente/${c._id}`}>{c.name}</Link></li>)}
                     </ul>
@@ -60,9 +60,5 @@ class Clients extends Component {
         )
     }
 }
-
-// Clients.propTypes = {
-//     match: PropTypes.object.isRequired,
-// }
 
 export default Clients
