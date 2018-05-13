@@ -30,14 +30,14 @@ class Documents {
             let res = await api.post(`/${doc.tipo}/dettagli`, { id: doc.id, token: doc.token })
             if (res && res.data && res.data.dettagli_documento)
                 details.push(res.data.dettagli_documento)
-            else {
-                console.log("Retrying, some shit is happening, lets juuuust wait a bit", res.data)
-                await new Promise(resolve => setTimeout(resolve, 10000))
+            else if (res.data && res.data.error_code === 2002) {
+                console.log("We're being throttled, wait 30 seconds...")
+                await new Promise(resolve => setTimeout(resolve, 30000))
                 i += 1
             }
 
-            if (i % 10 === 9)
-                await new Promise(resolve => setTimeout(resolve, 10000))
+            if (i % 20 === 19)
+                await new Promise(resolve => setTimeout(resolve, 20000))
         }
 
         return details
