@@ -11,16 +11,32 @@ module.exports = async function() {
         let today = new Date()
         today.setDate(today.getDate() - 1)
 
+        console.log("Fetching new unpaid invoices...")
         const newUnpaid = await Documents.getAll('proforma', today.getFullYear(), `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`) || []
-        const currUnpaid = await db.collection('invoices').find({ paid: false }).toArray() || []
+        console.log(`   > found ${newUnpaid.length}`)
 
+        console.log("Fetching new paid invoices...")
+        const newPaid = await Documents.getAll('fatture', today.getFullYear(), `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`) || []
+        console.log(`   > found ${newPaid.length}`)
+
+        console.log("Fetching old unpaid invoices...")
+        let currUnpaid = await db.collection('invoices').find({ paid: false }).toArray() || []
+        console.log(`   > found ${currUnpaid.length}`)
+
+        // format them correctly
+        console.log("Fetching details for unpaid invoices...")
+        currUnpaid = currUnpaid.map(u => { return { tipo: u.type, id: u._id, token: u.token } })
         let allUnpaid = await Documents.getDetails(currUnpaid.concat(newUnpaid))
-        allUnpaid = allUnpaid.map(i => format(i))
+        console.log(`   > found ${allUnpaid.length}`)
+
+        let all = allUnpaid.concat(newPaid).map(i => format(i))
 
         all.forEach(async i => {
             await db.collection('invoices').update({ _id: i._id }, { '$set': i }, { upsert: true })
         })
+
+        console.log("Done!")
     } catch (e) {
         console.log(e)
     }
-}
+}()
