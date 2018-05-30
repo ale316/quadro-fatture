@@ -20,7 +20,7 @@ class Client extends Component {
     }
 
     componentWillMount() {
-        axios.get(`http://localhost:3300/invoices/${this.props.match.params.client_id}`)
+        axios.get(`/api/invoices/${this.props.match.params.client_id}`)
         .then(res => {
             console.log(res.data)
             let client

@@ -22,7 +22,7 @@ class Clients extends Component {
     }
 
     componentWillMount() {
-        axios.get(`http://localhost:3300/clients`)
+        axios.get(`/api/clients`)
         .then(res => {
             let sorted = sortBy(res.data, c => c.name)
             if (sorted && sorted.length > 0) {
