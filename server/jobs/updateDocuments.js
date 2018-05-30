@@ -5,7 +5,7 @@ const format = require('../utils/formatDocument')
 
 module.exports = async function() {
     try {
-        const url = 'mongodb://localhost:27017'
+        let url = 'mongodb://localhost:27017'
         if (process.env.MONGO_USER && process.env.MONGO_PSW)
             url = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PSW}@localhost:27017/fatture`
 
