@@ -19,7 +19,7 @@ let mongoOpts = {
 if (process.env.MONGO_USER && process.env.MONGO_PSW) {
     mongoOpts = Object.assign({}, mongoOpts, {
         user: process.env.MONGO_USER,
-        pass: process.env.MONGO_PSW
+        pass: encodeURIComponent(process.env.MONGO_PSW)
     })
 }
 
