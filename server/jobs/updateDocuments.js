@@ -7,7 +7,7 @@ module.exports = async function() {
     try {
         let url = 'mongodb://localhost:27017'
         if (process.env.MONGO_USER && process.env.MONGO_PSW)
-            url = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PSW}@localhost:27017/fatture`
+            url = `mongodb://${process.env.MONGO_USER}:${encodeURIComponent(process.env.MONGO_PSW)}@localhost:27017/fatture`
 
         const client = await MongoClient.connect(url)
         const db = client.db('fatture')
