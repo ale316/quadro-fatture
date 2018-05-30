@@ -4,7 +4,9 @@ const Koa = require('koa')
 const Router = require('koa-router')
 const mongo = require('koa-mongo')
 const cors = require('@koa/cors')
+const cronJobs = require('./cron')
 
+cronJobs()
 const app = new Koa()
 const router = new Router()
 
