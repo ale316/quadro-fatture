@@ -19,4 +19,4 @@ module.exports = async function() {
     })
 
     await db.collection('clients').insertMany(clients)
-}
+}()
