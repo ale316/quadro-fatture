@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const Koa = require('koa')
 const Router = require('koa-router')
 const mongo = require('koa-mongo')
@@ -6,11 +8,20 @@ const cors = require('@koa/cors')
 const app = new Koa()
 const router = new Router()
 
-app.use(mongo({
+let mongoOpts = {
     host: 'localhost',
     port: 27017,
     db: 'fatture'
-}))
+}
+
+if (process.env.MONGO_USER && process.env.MONGO_PSW) {
+    mongoOpts = Object.assing({}, mongoOpts, {
+        user: process.env.MONGO_USER,
+        pass: process.env.MONGO_PSW
+    })
+}
+
+app.use(mongo(mongoOpts))
 
 app.use(cors())
 

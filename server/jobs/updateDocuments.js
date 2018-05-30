@@ -1,3 +1,4 @@
+require('dotenv').config()
 const Documents = require('../repositories/Documents')
 const MongoClient = require('mongodb').MongoClient
 const format = require('../utils/formatDocument')
@@ -5,6 +6,9 @@ const format = require('../utils/formatDocument')
 module.exports = async function() {
     try {
         const url = 'mongodb://localhost:27017'
+        if (process.env.MONGO_USER && process.env.MONGO_PSW)
+            url = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PSW}@localhost:27017/fatture`
+
         const client = await MongoClient.connect(url)
         const db = client.db('fatture')
 
