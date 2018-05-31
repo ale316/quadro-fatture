@@ -1,7 +1,6 @@
 const moment = require('moment')
 
 module.exports = function(invoice) {
-    const isTRegex = /buste paga/gi
     return {
         _id: invoice.id,
         token: invoice.token,
@@ -15,7 +14,7 @@ module.exports = function(invoice) {
         link_doc: invoice.link_doc,
         items: invoice.lista_articoli && invoice.lista_articoli.length > 0 ? invoice.lista_articoli.map(a => {
             let description = a.descrizione
-            if (isTRegex.test(description)) {
+            if (description.toLowerCase().indexOf('buste paga') > -1) {
                 description = description.split(':').pop().trim()
                 description = `Buste paga: ${description}`
             }
