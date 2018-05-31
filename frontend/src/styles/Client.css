@@ -1,3 +1,9 @@
+.Client {
+    width: 1024px;
+    margin: 0 auto;
+    background-color: white;
+}
+
 .Client p {
   margin: 0;
   margin-bottom: 5px;

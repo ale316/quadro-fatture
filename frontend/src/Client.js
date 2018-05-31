@@ -22,7 +22,6 @@ class Client extends Component {
     componentWillMount() {
         axios.get(`/api/invoices/${this.props.match.params.client_id}`)
         .then(res => {
-            console.log(res.data)
             let client
             let sorted = sortBy(res.data, i => i.paid)
             if (sorted && sorted.length > 0) {
@@ -84,7 +83,7 @@ class Client extends Component {
                         {
                             Header: "Stato",
                             id: "stato",
-                            accessor: s => s.paid ? "Saldato" : "Da Pagare",
+                            accessor: s => s.paid ? "Fattura" : "Proforma",
                             maxWidth: 100
                         }
                     ]}
