@@ -31,3 +31,8 @@
 .Clients li:last-child {
     border-radius: 0 0 10px 10px;
 }
+
+.Clients a {
+    color: inherit;
+    text-decoration: none;
+}
